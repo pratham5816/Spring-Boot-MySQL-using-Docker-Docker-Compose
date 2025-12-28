@@ -1,85 +1,102 @@
 Spring Boot + MySQL using Docker & Docker Compose
 
-This project demonstrates how to containerize a Spring Boot application with a MySQL database using Docker and Docker Compose.
-The application and database run in separate containers, connected via a Docker bridge network, with persistent storage using Docker volumes.
+This project demonstrates how to containerize a Spring Boot application with a MySQL database using Docker and Docker Compose. The application and database run in separate containers, connected via a custom Docker bridge network, with persistent storage using Docker volumes. The project now uses a prebuilt Docker image for the Spring Boot app, making it easy to share and run on any machine without building from source.
 
 What I Learned from This Project
 
-  Basics of Docker and containerization
+Basics of Docker and containerization
 
-  Difference between virtualization and containerization
+Difference between virtualization and containerization
 
-  Docker architecture (Client, Daemon, Images, Containers)
+Docker architecture: Client, Daemon, Images, Containers
 
-  Writing a Dockerfile for a Spring Boot application
+Writing a Dockerfile for a Spring Boot application
 
-  Building and running Docker images
+Building and running Docker images
 
-  Running multiple containers using Docker Compose
+Using a prebuilt Docker image for deployment
 
-  Connecting Spring Boot with MySQL inside Docker
+Running multiple containers using Docker Compose
 
-  Using Docker networks for inter-container communication
+Connecting Spring Boot with MySQL inside Docker
 
-  Using Docker volumes for database persistence
+Using Docker networks for inter-container communication
 
-  Managing container startup using health checks
+Using Docker volumes for database persistence
 
+Managing container startup using health checks
 
--Project Architecture
+Sharing and running Dockerized apps on other machines using Docker Hub or image export
 
-Spring Boot App  --->  MySQL Database
-       |                    |
-       |---- Docker Network |
-
-
-  Spring Boot connects to MySQL using the service name mysql
-
-  Database runs on port 3306 internally
-
-  Application runs on port 8080
+Project Architecture
+Spring Boot App (container) ---> MySQL Database (container)
+               | 
+               |---- Connected via Docker Custom Network
 
 
--Tech Stack
+Spring Boot connects to MySQL using the service name mysql
 
-  Java
+MySQL database runs internally on port 3306
 
-  Spring Boot
+Spring Boot application runs internally on port 8080
 
-  MySQL 8
+Tech Stack
 
-  Docker
+Java
 
-  Docker Compose
+Spring Boot
 
-  JPA / Hibernate
+MySQL 8
+
+Docker
+
+Docker Compose
+
+JPA / Hibernate
+
+How to Run the Project (Using Prebuilt Image)
+
+Clone the repository (or download the Docker Compose file)
+
+Update docker-compose.yml if needed:
+Make sure the Spring Boot service uses your Docker Hub image:
+
+app:
+  image: prathamdoc5816/employee-app:1.0
 
 
+Run Docker Compose
 
--How to Run the Project
-  Build the Spring Boot JAR
-  mvn clean package
+docker compose up -d
 
--Start Containers
-docker-compose up --build
+
 This will:
 
-  Build the Spring Boot image
+Pull the Spring Boot image from Docker Hub
 
-  Start the MySQL container
+Start the MySQL container
 
-  Create Docker network and volume
+Create the custom Docker network and volume
 
-  Run both containers together
+Run both containers together
 
-  Access the Application
+Verify containers
 
-  Spring Boot application:
-    http://localhost:8080
-  
-  MySQL from host:
-  localhost:3307
+docker ps
 
+Access the Application
+
+Spring Boot application: http://localhost:8080
+
+MySQL from host: localhost:3307
+
+Spring Boot connects to MySQL using service name mysql inside Docker network.
+
+Database Persistence
+
+Docker volume mysql-data ensures database data is not lost when containers restart.
+
+Optional: You can share a MySQL dump (employee_db.sql) to prepopulate the database on other machines.
 -Database Persistence
 
   Docker volume mysql-data ensures database data is not lost when containers restart.
